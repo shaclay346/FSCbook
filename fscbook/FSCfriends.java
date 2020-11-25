@@ -14,7 +14,7 @@ public class FSCfriends {
 	
 	
 	//insert method
-	public void insert(String fName, String lName, int id, String number, double balance) {
+	public void insert(int id) {
 		head = insert(head, id);
 	}
 	//method to insert the Student node at the correct postition of the Linked List

@@ -51,30 +51,34 @@ public class FSCbookBST {
 	}
 
 	public FSCstudent searchByName(String firstName, String lastName) {
-		return searchByName(root, firstName, lastName);
+		String name = lastName + firstName;
+		return searchByName(root, name);
 	}
 
 	//
 	// boolean | search(BSTnode, int)
 	//
-	private FSCstudent searchByName(FSCstudent p, String firstName, String lastName) {
-		String s2 = p.getFirstName() + p.getLastName();
-		String s1 = firstName + lastName;
+	private FSCstudent searchByName(FSCstudent p, String name) {
+		//if(p != null){
+			//String s2 = p.getFirstName() + p.getLastName();
+		//}
+		String s1 = name;
 		
 		if (p == null) {
 			return null;
 		}
 		else {
+			String s2 = p.getLastName() + p.getFirstName();
 			// if the data we are searching for is found at p (at the current root)
 			//could probaby just be if s1.equeals(s2)
-			if (firstName.equals(p.getFirstName()) && lastName.equals(p.getLastName())) {
+			if (s1.equals(s2)) {
 				return p;
 			}
 			else if (s1.compareTo(s2) < 0) {
-				return searchByName(p.getLeft(), firstName, lastName);
+				return searchByName(p.getLeft(), s1);
 			}
 			else { //compareTo > 0
-				return searchByName(p.getRight(),firstName, lastName);
+				return searchByName(p.getRight(), s1);
 			}
 		}
 	}

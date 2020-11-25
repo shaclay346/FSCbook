@@ -7,8 +7,10 @@ public class FSCstudent {
 	private String firstName;
 	private String lastName;
 	private String department;
+	
 	private int numFriends;
 	private FSCfriends myFriends;
+	
 	private FSCstudent right;
 	private FSCstudent left;
 	
