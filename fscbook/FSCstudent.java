@@ -21,6 +21,8 @@ public class FSCstudent {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.department = department;
+		this.numFriends = 0;
+		this.myFriends = new FSCfriends();
 		left = right = null;
 	}
 
@@ -33,7 +35,14 @@ public class FSCstudent {
 		this.left = left;
 	}
     
-	
+	@Override
+	public String toString(){
+		String s = "";
+		s += "\nID: " + this.ID;
+		s += "\nName: " + this.firstName + " " + this.lastName;
+		s += "\nDepartment: " + this.department;
+		return s;
+	}
 
 
 	//getters and setters

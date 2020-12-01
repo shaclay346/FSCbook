@@ -76,6 +76,8 @@ public class FSCbook {
 
 		FSCstudent temp1 = book.searchByName(firstName1, lastName1);
 		FSCstudent temp2 = book.searchByName(firstName2, lastName2);
+		output.print(temp1);
+
 
 		//int ID1 = getID(firstName1, lastName1, book);
 		//	int ID2 = getID(firstName2, lastName2, book);
@@ -90,14 +92,11 @@ public class FSCbook {
 			}
 		}
 
-		//Cannot Perform FRIEND Command:
-		//JAQUELYN HUFFSTUTTER and LOUISA MUSSENDEN are already friends.
-		//	FSCfriend fuck = temp1.getMyFriends().search(temp2.getID());
+		
 		if (flag) {
 			try {
 				//THIS MIGHT BE BECAUSE I NEVER MADE A LINKED LIST WITHIN THIS OBJECT
 				//WHEN I DECLARE THE FSCSTUDENT OBJECT TRY MAYBE SETTING A NEW FSCFRIND LLS
-				FSCfriend fuck = temp1.getMyFriends().search(temp2.getID());
 				if (temp1.getMyFriends().search(temp2.getID()) != null) {
 					output.print("\n\tCannot Perform FRIEND Command:\n");
 					output.printf("\n\t\t%s %s and %s %s are already friends\n", firstName1, lastName1, firstName2, lastName2);
@@ -109,9 +108,13 @@ public class FSCbook {
 
 		if (flag) {
 			try{
-			output.printf("\n\t%s %s and %s %s are now friends\n", firstName1, lastName1, firstName2, lastName2);
+			output.printf("\n\t%s %s and %s %s are now friends\n\n", firstName1, lastName1, firstName2, lastName2);
 			temp1.getMyFriends().insert(temp2.getID());
 			temp2.getMyFriends().insert(temp1.getID());
+			
+			//add to their number of friends
+			temp1.setNumFriends(temp1.getNumFriends() + 1);
+			temp2.setNumFriends(temp2.getNumFriends() + 1);
 			}catch(NullPointerException ex){
 				
 			}
@@ -127,12 +130,18 @@ public class FSCbook {
 		String firstName2 = in.next();
 		String lastName2 = in.next();
 
+		output.print("\n" + firstName1 + " " + lastName1 + "\n");
+		
+		output.print("\n" + firstName2 + " " + lastName2 + "\n");
+		
 		FSCstudent temp1 = book.searchByName(firstName1, lastName1);
+		//output.print("HERE");
 		FSCstudent temp2 = book.searchByName(firstName2, lastName2);
+		//output.print("HERE");
 
-		//int ID1 = getID(firstName1, lastName1, book);
-		//	int ID2 = getID(firstName2, lastName2, book);
+
 		if (temp1 == null || temp2 == null) {
+			output.print("IN HERE");
 			flag = false;
 			output.print("\n\tCannot Perform UNFRIEND Command:");
 			if (temp1 == null) {
@@ -142,9 +151,15 @@ public class FSCbook {
 				output.printf("\n\t\t%s %s - this Student is not in FSCbook.", firstName1, lastName1);
 			}
 		}
+		try{
+			output.print("the search: " + temp1.getMyFriends().search(temp2.getID()) );
+		}catch(NullPointerException ex){
+			
+		}
 		
 		if (flag) {
 			try {
+				flag = false;
 				//THIS MIGHT BE BECAUSE I NEVER MADE A LINKED LIST WITHIN THIS OBJECT
 				//WHEN I DECLARE THE FSCSTUDENT OBJECT TRY MAYBE SETTING A NEW FSCFRIND LLS
 				if (temp1.getMyFriends().search(temp2.getID()) == null) {
@@ -156,7 +171,17 @@ public class FSCbook {
 			}
 		}
 		
-		
+		if(flag){
+			output.print("\nUNADD THEM\n");
+			//decrement their number of friends
+			temp1.setNumFriends(temp1.getNumFriends() - 1);
+			temp2.setNumFriends(temp2.getNumFriends() - 1);
+		}	
+	}
+	
+	public static void printFriends(Scanner in, PrintWriter output, FSCbookBST book){
+		String firstName = in.next();
+		String lastName = in.next();
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -194,6 +219,12 @@ public class FSCbook {
 					break;
 				case "FRIEND":
 					friend(in, output, tree);
+					break;
+				case "UNFRIEND":
+					unfriend(in, output, tree);
+					break;
+				case "PRINTFRIENDS":
+					printFriends(in, output, tree);
 					break;
 				//default:
 				//	output.print("here");

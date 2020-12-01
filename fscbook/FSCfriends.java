@@ -60,7 +60,8 @@ public class FSCfriends {
 				return helpPointer;
 			}
 			helpPointer = helpPointer.getNext();
-		}//if no student with that ID is found then return null
+		}
+		//if no student with that ID is found then return null
 		return null;
 	}
 
