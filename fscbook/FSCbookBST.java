@@ -1,5 +1,7 @@
 package fscbook;
 
+import java.io.PrintWriter;
+
 //Binary Search Tree class
 public class FSCbookBST {
 
@@ -9,6 +11,27 @@ public class FSCbookBST {
 	public FSCbookBST() {
 		root = null;
 	}
+	
+	//used to print all members of the BST in order
+	public void printMembers(PrintWriter output){
+		printMembers(root, output);
+	}
+	//use an inorder traversal to print by ID
+	private void printMembers(FSCstudent p, PrintWriter output){
+		if(p == null){
+			return;
+		}
+		
+		printMembers(p.getLeft(), output);
+		
+		//ID 1110471, ETSUKO ARGUILLO, (CS)
+		output.printf("\t\tID %d, %s %s, (%s)\n", p.getID(), p.getFirstName(), p.getLastName(), p.getDepartment());
+				
+	    printMembers(p.getRight(), output);
+		
+	}
+	
+	
 
 	/* Below are MANY methods that are used on Binary Search Trees.
 	 * 

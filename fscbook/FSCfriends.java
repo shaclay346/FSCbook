@@ -2,6 +2,9 @@
 package fscbook;
 
 //LL class 
+
+import java.io.PrintWriter;
+
 public class FSCfriends {
 	private FSCfriend head;
 	
@@ -11,7 +14,16 @@ public class FSCfriends {
 	}
 
 
-	
+	public void printAllFriends(FSCbookBST book, PrintWriter output){
+		FSCfriend hp = head;
+		while(hp != null){
+			FSCstudent temp = book.searchbyID(hp.getID());
+			//Student ID 1111493, VADA DOMINSKI (CS)
+			output.printf("\n\t\tStudent ID %d, %s %s (%s)", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
+			hp = hp.getNext();
+		}
+		output.println("\n");
+	}
 	
 	//insert method
 	public void insert(int id) {
