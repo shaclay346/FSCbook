@@ -1,34 +1,35 @@
-
 package fscbook;
 
 //LL class 
-
 import java.io.PrintWriter;
 
 public class FSCfriends {
+
 	private FSCfriend head;
-	
+
 	//constructor
-	public FSCfriends(){
+	public FSCfriends() {
 		this.head = null;
 	}
 
-
-	public void printAllFriends(FSCbookBST book, PrintWriter output){
+	public void printAllFriends(FSCbookBST book, PrintWriter output) {
 		FSCfriend hp = head;
-		while(hp != null){
+		while (hp != null) {
 			FSCstudent temp = book.searchbyID(hp.getID());
-			//Student ID 1111493, VADA DOMINSKI (CS)
-			output.printf("\n\t\tStudent ID %d, %s %s (%s)", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
+			//
+			if (temp != null) {
+				output.printf("\n\t\tStudent ID %d, %s %s (%s)", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
+			}
 			hp = hp.getNext();
 		}
 		output.println("\n");
 	}
-	
+
 	//insert method
 	public void insert(int id) {
 		head = insert(head, id);
 	}
+
 	//method to insert the Student node at the correct postition of the Linked List
 	private FSCfriend insert(FSCfriend head, int id) {
 		// IF there is no list, newNode will be the first node, so just return it
@@ -57,12 +58,11 @@ public class FSCfriends {
 		return head;
 	}
 
-
 	//method to search the Linked list based on ID
 	public FSCfriend search(int id) {
 		return search(head, id);
 	}
-	
+
 	private FSCfriend search(FSCfriend head, int id) {
 		//create help Pointer 
 		FSCfriend helpPointer = head;
@@ -108,12 +108,12 @@ public class FSCfriends {
 		}
 		return head;
 	}
-	
-	
+
 	//getters and setters
 	public FSCfriend getHead() {
 		return head;
 	}
+
 	public void setHead(FSCfriend head) {
 		this.head = head;
 	}
