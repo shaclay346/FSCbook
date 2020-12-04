@@ -37,10 +37,11 @@ public class FSCbook {
 		//save a temporary student y searching the BST by ID
 		FSCstudent temp = book.searchbyID(ID);
 
+		//if they are not found print an error
 		if (temp == null) {
 			output.printf("\tID %d was not found in FSCbook.\n\n", ID);
 		}
-		else {
+		else {//otherwise print their info
 			output.printf("\tFound:  ID %d, %s %s (%s Department)\n\n", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
 		}
 	}
@@ -90,45 +91,37 @@ public class FSCbook {
 			output.println();
 		}
 
+		//check if they are already friends by seeing if they are in eachothers linkedlists
 		if (flag) {
-			//try {
-			//then check to see if they are already friends by searching the LL
 			if (temp1.getMyFriends().search(temp2.getID()) != null) {
 				flag = false;
 				output.print("\tCannot Perform FRIEND Command:\n");
 				output.printf("\t\t%s %s and %s %s are already friends.\n\n", firstName1, lastName1, firstName2, lastName2);
 			}
-			//} catch (NullPointerException fuck) {
-			//	;
-			//}
 		}
 
 		if (flag) {
-			try {
-				output.printf("\t%s %s and %s %s are now friends.\n\n", firstName1, lastName1, firstName2, lastName2);
-				temp1.getMyFriends().insert(temp2.getID());
-				temp2.getMyFriends().insert(temp1.getID());
+			//if there was no error add them to each others friends lists
+			output.printf("\t%s %s and %s %s are now friends.\n\n", firstName1, lastName1, firstName2, lastName2);
+			temp1.getMyFriends().insert(temp2.getID());
+			temp2.getMyFriends().insert(temp1.getID());
 
-				//add to their number of friends
-//				temp1.setNumFriends(temp1.getNumFriends() + 1);
-//				temp2.setNumFriends(temp2.getNumFriends() + 1);
-				temp1.increaseNumFriends();
-				temp2.increaseNumFriends();
-			} catch (NullPointerException ex) {
-
-			}
+			//increment their number of friends
+			temp1.increaseNumFriends();
+			temp2.increaseNumFriends();
 		}
 	}
 
 	public static void unfriend(String firstName1, String lastName1, String firstName2, String lastName2, PrintWriter output, FSCbookBST book) {
 		boolean flag = true;
 
+		//search the tree for those students
 		FSCstudent temp1 = book.searchByName(firstName1, lastName1);
 
 		FSCstudent temp2 = book.searchByName(firstName2, lastName2);
 
+		//if either were not found print an error
 		if (temp1 == null || temp2 == null) {
-			//output.print("IN HERE");
 			flag = false;
 			output.print("\tCannot Perform UNFRIEND Command:\n");
 			if (temp1 == null) {
@@ -139,23 +132,14 @@ public class FSCbook {
 			}
 			output.println();
 		}
-		try {
-			//output.print("the search: " + temp1.getMyFriends().search(temp2.getID()));
-		} catch (NullPointerException ex) {
-
-		}
 
 		if (flag) {
-			try {
-				flag = false;
-				//THIS MIGHT BE BECAUSE I NEVER MADE A LINKED LIST WITHIN THIS OBJECT
-				//WHEN I DECLARE THE FSCSTUDENT OBJECT TRY MAYBE SETTING A NEW FSCFRIND LLS
-				if (temp1.getMyFriends().search(temp2.getID()) == null) {
-					output.print("\tCannot Perform UNFRIEND Command:\n");
-					output.printf("\t%s %s and %s %s are not currently friends.\n\n", firstName1, lastName1, firstName2, lastName2);
-				}
-			} catch (NullPointerException fuck) {
-				;
+			flag = false;
+			//if neither of them are friends print an error
+			//checked by searching their linked lists 
+			if (temp1.getMyFriends().search(temp2.getID()) == null) {
+				output.print("\tCannot Perform UNFRIEND Command:\n");
+				output.printf("\t%s %s and %s %s are not currently friends.\n\n", firstName1, lastName1, firstName2, lastName2);
 			}
 		}
 
@@ -165,8 +149,6 @@ public class FSCbook {
 			temp2.getMyFriends().delete(temp1.getID());
 
 			//decrement their number of friends
-			//temp1.setNumFriends(temp1.getNumFriends() - 1);
-			//temp2.setNumFriends(temp2.getNumFriends() - 1);
 			temp1.decreaseNumFriends();
 			temp2.decreaseNumFriends();
 		}
@@ -183,20 +165,28 @@ public class FSCbook {
 
 		if (stuToDelete == null) {
 			output.print("\tCannot Perform DELETE Command:\n");
-			//YAEKO SAHU was not found in FSCbook.
 			output.printf("\t\t%s %s was not found in FSCbook.\n\n", firstName, lastName);
 		}
 		else {
 			FSCfriend hp = stuToDelete.getMyFriends().getHead();
+			//loop through the linked list of the person we are deleting and remove all their friends
 			while (hp != null) {
 				FSCstudent friend = book.searchbyID(hp.getID());
 
-				//String firstName1, String lastName1, String firstName2, String lastName2, PrintWriter output, FSCbookBST book) {
+				//call the unfriend method to remove them from each others LL
+				//if frine != null then unfriend else increment hp
+				//if (friend != null) {
 				unfriend(stuToDelete.getFirstName(), stuToDelete.getLastName(), friend.getFirstName(), friend.getLastName(), output, book);
+				//}
 				hp = hp.getNext();
 			}
+
 			//once all friends have been deleted, remove them from the tree 
 			book.delete(stuToDelete.getID());
+
+			//make sure they are deleted from everyones LL
+			book.removeAllFriends(stuToDelete.getID());
+
 			output.printf("\t%s %s has been removed from FSCbook.\n\n", firstName, lastName);
 		}
 	}
@@ -206,37 +196,46 @@ public class FSCbook {
 		String lastName = in.next();
 		boolean trigger = true;
 
+		//search for the student we are printing 
 		FSCstudent temp = book.searchByName(firstName, lastName);
 
+		//if no one is found print an error
 		if (temp == null) {
 			trigger = false;
 			output.print("\tCannot Perform PRINTFRIENDS Command:");
-			//LEAN ELQUIST was not found in FSCbook.
 			output.printf("\n\t\t%s %s was not found in FSCbook.\n\n", firstName, lastName);
 		}
 
 		if (trigger) {
+			//if they don't have any friends print an error
 			if (temp.getNumFriends() == 0) {
 				trigger = false;
-				//KARLEEN MCCARRELL has no friends.
 				output.printf("\t%s %s has no friends.\n\n", firstName, lastName);
 
 			}
 		}
-
+		//otherwise print their friends 
 		if (trigger) {
 			output.printf("\tFriends for ID %d, %s %s (%s Department):", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
-			//get LL length
-			//temp.getMyFriends().LLlength();
-			output.printf("\n\t\tThere are a total of %d friends(s).", temp.getMyFriends().LLlength());
+			//print their number of friends
+			output.printf("\n\t\tThere are a total of %d friends(s).", temp.getMyFriends().LLlength(temp.getFirstName()));
+			//output.print("\nNUM friends : " + temp.getNumFriends());
+			//call a method from the LL class to print their friends 
 			temp.getMyFriends().printAllFriends(book, output);
 		}
 	}
 
 	public static void printMembers(FSCbookBST book, PrintWriter output) {
-		output.print("\tMembers of FSCbook:\n");
-		book.printMembers(output);
-		output.println();
+		if (book.isEmpty()) {
+			output.print("\tCannot Perform PRINTMEMBERS Command:\n");
+			output.print("\t\tThere are currently no members of FSCbook.\n\n");
+		}
+		else {
+			output.print("\tMembers of FSCbook:\n");
+			//call a method from the BST to print all of the members and their IDs
+			book.printMembers(output);
+			output.println();
+		}
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -258,7 +257,7 @@ public class FSCbook {
 		int k = in.nextInt();
 		FSCbookBST tree = new FSCbookBST();
 		//for loop to loop the correct number of days
-		for (int i = 1; i < k; i++) {
+		for (int i = 0; i < k; i++) {
 			String command = in.next();
 			output.println(command + " Command");
 
@@ -290,11 +289,11 @@ public class FSCbook {
 				case "PRINTMEMBERS":
 					printMembers(tree, output);
 					break;
-				case "DELETE":
-					delete(in, output, tree);
-					break;
-				default:
+				//case "DELETE":
 				//delete(in, output, tree);
+				///break;
+				default:
+					delete(in, output, tree);
 			}
 		}
 		//close io

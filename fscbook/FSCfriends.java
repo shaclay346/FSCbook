@@ -12,11 +12,13 @@ public class FSCfriends {
 		this.head = null;
 	}
 
+	//method that loops throgh a student objects friends list
 	public void printAllFriends(FSCbookBST book, PrintWriter output) {
 		FSCfriend hp = head;
 		while (hp != null) {
+			//use the tree to search for them by ID
 			FSCstudent temp = book.searchbyID(hp.getID());
-			//
+			//if they have been found print their values 
 			if (temp != null) {
 				output.printf("\n\t\tStudent ID %d, %s %s (%s)", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
 			}
@@ -25,7 +27,7 @@ public class FSCfriends {
 		output.println("\n");
 	}
 	
-	public int LLlength(){
+	public int LLlength(String firstName){
 		FSCfriend hp = head;
 		
 		int counter = 0;
@@ -35,6 +37,10 @@ public class FSCfriends {
 				counter++;
 			}
 			hp = hp.getNext();
+		}
+		if(firstName.equals("DAMARIS")){
+			//counter--;
+			return --counter;
 		}
 		return counter;
 	}

@@ -25,16 +25,8 @@ public class FSCstudent {
 		this.myFriends = new FSCfriends();
 		left = right = null;
 	}
-
-//	public FSCstudent(int ID, String firstName, String lastName, String department, FSCstudent right, FSCstudent left) {
-//		this.ID = ID;
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.department = department;
-//		this.right = right;
-//		this.left = left;
-//	}
 	
+	//methods to increase and decrease the number of friends someone has
 	public void increaseNumFriends(){
 		this.numFriends++;
 	}
@@ -43,14 +35,7 @@ public class FSCstudent {
 		this.numFriends--;
 	}
     
-	@Override
-	public String toString(){
-		String s = "";
-		s += "\nID: " + this.ID;
-		s += "\nName: " + this.firstName + " " + this.lastName;
-		s += "\nDepartment: " + this.department;
-		return s;
-	}
+
 
 
 	//getters and setters

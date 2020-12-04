@@ -6,6 +6,7 @@ public class FSCfriend {
 	private int ID;
 	private FSCfriend next;
 
+	//constructors 
 	public FSCfriend(int ID) {
 		this.ID = ID;
 		this.next = null;

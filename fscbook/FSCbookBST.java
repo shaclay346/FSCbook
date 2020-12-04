@@ -31,13 +31,28 @@ public class FSCbookBST {
 		printMembers(p.getRight(), output);
 	}
 	
-//	public void removeAllFriends(){
-//		removeAllFriends(root);
-//	}
-//	
-//	private void removeAllFriends(FSCstudent root){
-//		
-//	}
+	public void removeAllFriends(int ID){
+		removeAllFriends(root , ID);
+		root.getMyFriends().delete(ID);
+	}
+	
+	private void removeAllFriends(FSCstudent p, int id){
+		if(p == null){
+			return ;
+		}
+		else{
+			removeAllFriends(p.getLeft(), id);
+			
+			//do the removing shit here
+//		    FSCfriend found = p.getMyFriends().search(id);
+//			if(found != null){
+//				p.getMyFriends().delete(id);
+//			}
+			p.getMyFriends().delete(id);
+			
+			removeAllFriends(p.getRight(), id);
+		}
+	}
 
 	/* Below are MANY methods that are used on Binary Search Trees.
 	 * 
