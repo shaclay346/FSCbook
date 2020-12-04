@@ -24,6 +24,20 @@ public class FSCfriends {
 		}
 		output.println("\n");
 	}
+	
+	public int LLlength(){
+		FSCfriend hp = head;
+		
+		int counter = 0;
+		
+		while(hp != null){
+			if(hp.getID() != 0){
+				counter++;
+			}
+			hp = hp.getNext();
+		}
+		return counter;
+	}
 
 	//insert method
 	public void insert(int id) {

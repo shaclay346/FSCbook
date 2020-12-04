@@ -26,13 +26,21 @@ public class FSCstudent {
 		left = right = null;
 	}
 
-	public FSCstudent(int ID, String firstName, String lastName, String department, FSCstudent right, FSCstudent left) {
-		this.ID = ID;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.department = department;
-		this.right = right;
-		this.left = left;
+//	public FSCstudent(int ID, String firstName, String lastName, String department, FSCstudent right, FSCstudent left) {
+//		this.ID = ID;
+//		this.firstName = firstName;
+//		this.lastName = lastName;
+//		this.department = department;
+//		this.right = right;
+//		this.left = left;
+//	}
+	
+	public void increaseNumFriends(){
+		this.numFriends++;
+	}
+	
+	public void decreaseNumFriends(){
+		this.numFriends--;
 	}
     
 	@Override

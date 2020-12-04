@@ -29,8 +29,15 @@ public class FSCbookBST {
 		output.printf("\t\tID %d, %s %s, (%s)\n", p.getID(), p.getFirstName(), p.getLastName(), p.getDepartment());
 
 		printMembers(p.getRight(), output);
-
 	}
+	
+//	public void removeAllFriends(){
+//		removeAllFriends(root);
+//	}
+//	
+//	private void removeAllFriends(FSCstudent root){
+//		
+//	}
 
 	/* Below are MANY methods that are used on Binary Search Trees.
 	 * 
@@ -180,128 +187,6 @@ public class FSCbookBST {
 //		else {
 //			return 0;
 //		}
-//	}
-	//
-	// void | delete(int)
-	//
-//	public void delete(int ID) {
-//		root = delete(root, ID);
-//	}
-//
-//	//
-//	// BSTnode | delete(BSTnode, int)
-//	//
-//	private FSCstudent delete(FSCstudent p, int ID) {
-//		FSCstudent node2delete, newnode2delete, node2save, parent;
-//		int saveID;
-//		String saveFirst;
-//		String saveLast;
-//		String saveDepart;
-//		int saveFriends;
-//
-//		// Step 1: Find the node we want to delete
-//		node2delete = findNode(p, ID);
-//		// If node is not found (does not exist in tree), we clearly cannot delete it.
-//		if (node2delete == null) {
-//			return root;
-//		}
-//
-//		// Step 2: Find the parent of the node we want to delete
-//		parent = parent(p, node2delete);
-//
-//		// Step 3: Perform Deletion based on three possibilities
-//		// **1** :  node2delete is a leaf node
-//		if (isLeaf(node2delete)) {
-//			// if parent is null, this means that node2delete is the ONLY node in the tree
-//			if (parent == null) {
-//				return null; // we return null as the updated root of the tree
-//			}
-//			// Delete node if it is a left child
-//			if (ID < parent.getID()) {
-//				parent.setLeft(null);
-//			}
-//			// Delete node if it is a right child
-//			else {
-//				parent.setRight(null);
-//			}
-//
-//			// Finally, return the root of the tree (in case the root got updated)
-//			return p;
-//		}
-//
-//		// **2** : node2delete has only a left child
-//		if (hasOnlyLeftChild(node2delete)) {
-//			// if node2delete is the root
-//			if (parent == null) {
-//				return node2delete.getLeft();
-//			}
-//
-//			// If node2delete is not the root,
-//			// it must the left OR the right child of some node
-//			// IF it is the left child of some node
-//			if (ID < parent.getID()) {
-//				parent.setLeft(parent.getLeft().getLeft());
-//			}
-//			// ELSE it is the right child of some node
-//			else {
-//				parent.setRight(parent.getRight().getLeft());
-//			}
-//
-//			// Finally, return the root of the tree (in case the root got updated)
-//			return p;
-//		}
-//
-//		// **3** :  node2delete has only a right child
-//		if (hasOnlyRightChild(node2delete)) {
-//			// if node2delete is the root
-//			if (parent == null) {
-//				return node2delete.getRight();
-//			}
-//
-//			// If node2delete is not the root,
-//			// it must the left OR the right child of some node
-//			// IF it is the left child of some node
-//			if (ID < parent.getID()) {
-//				parent.setLeft(parent.getLeft().getRight());
-//			}
-//			// ELSE it is the right child of some node
-//			else {
-//				parent.setRight(parent.getRight().getRight());
-//			}
-//
-//			// Finally, return the root of the tree (in case the root got updated)
-//			return p;
-//		}
-//
-//		// **4** :  node2delete has TWO children.
-//		// Remember, we have two choices: the minVal from the right subtree (of the deleted node)
-//		// or the maxVal from the left subtree (of the deleted node)
-//		// We choose to find the minVal from the right subtree.
-//		newnode2delete = minNode(node2delete.getRight());
-//		// Now we need to temporarily save the data value(s) from this node
-//		saveID = newnode2delete.getID();
-//		saveFirst = newnode2delete.getFirstName();
-//		saveLast = newnode2delete.getLastName();
-//		saveDepart = newnode2delete.getDepartment();
-//		//newnode2delete.getLeft();
-//		//newnode2delete.getRight();
-//		FSCfriends saveLL= newnode2delete.getMyFriends();
-//		saveFriends = newnode2delete.getNumFriends();
-//
-//		// Now, we recursively call our delete method to actually delete this node that we just copied the data from
-//		p = delete(p, ID);
-//
-//		// Now, put the saved data (in saveValue) into the correct place (the original node we wanted to delete)
-//		//had it just as ID first, last, and dept first
-//		node2delete.setID(saveID);
-//		node2delete.setFirstName(saveFirst);
-//		node2delete.setLastName(saveLast);
-//		node2delete.setDepartment(saveDepart);
-//		node2delete.setNumFriends(saveFriends);
-//		node2delete.setMyFriends(saveLL);
-//
-//		// Finally, return the root of the tree (in case the root got updated)
-//		return p;
 //	}
 	
 	//
