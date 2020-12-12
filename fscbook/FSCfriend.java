@@ -1,3 +1,7 @@
+//Shane Claycomb
+//1235640
+//shaclay346@gmail.com
+//CSC 3280 section: 02
 package fscbook;
 
 //LLnode class 

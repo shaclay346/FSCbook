@@ -1,3 +1,7 @@
+//Shane Claycomb
+//1235640
+//shaclay346@gmail.com
+//CSC 3280 section: 02
 package fscbook;
 
 //LL class 
@@ -26,24 +30,7 @@ public class FSCfriends {
 		}
 		output.println("\n");
 	}
-	
-	public int LLlength(String firstName){
-		FSCfriend hp = head;
-		
-		int counter = 0;
-		
-		while(hp != null){
-			if(hp.getID() != 0){
-				counter++;
-			}
-			hp = hp.getNext();
-		}
-		if(firstName.equals("DAMARIS")){
-			//counter--;
-			return --counter;
-		}
-		return counter;
-	}
+
 
 	//insert method
 	public void insert(int id) {

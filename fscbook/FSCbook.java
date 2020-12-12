@@ -14,20 +14,27 @@ import java.io.PrintWriter;
 public class FSCbook {
 
 	//method to add to the BST tree
-	public static void add(Scanner in, PrintWriter output, FSCbookBST tree) {
+	public static void add(Scanner in, PrintWriter output, FSCbookBST book) {
 		//read in info
 		int ID = in.nextInt();
 		String first = in.next();
 		String last = in.next();
 		String department = in.next();
+		FSCstudent found = book.searchbyID(ID);
+		if (found != null) {
+			//error
+			output.print("\tCannot Perform ADD Command:\n");
+			output.printf("\t\tID %d, %s %s - already a member of FSCbook.\n\n", found.getID(), found.getFirstName(), found.getLastName());
+		}
+		else {
+			output.printf("\t%s %s (ID %d), from the %s department, joined FSCbook.\n\n", first, last, ID, department);
 
-		output.printf("\t%s %s (ID %d), from the %s department, joined FSCbook.\n\n", first, last, ID, department);
+			//create new student object and insert them into the tree
+			FSCstudent temp = new FSCstudent(ID, first, last, department);
 
-		//create new student object and insert them into the tree
-		FSCstudent temp = new FSCstudent(ID, first, last, department);
-
-		//insert them into the tree 
-		tree.insert(temp);
+			//insert them into the tree 
+			book.insert(temp);
+		}
 	}
 
 	//findID
@@ -134,10 +141,10 @@ public class FSCbook {
 		}
 
 		if (flag) {
-			flag = false;
 			//if neither of them are friends print an error
 			//checked by searching their linked lists 
 			if (temp1.getMyFriends().search(temp2.getID()) == null) {
+				flag = false;
 				output.print("\tCannot Perform UNFRIEND Command:\n");
 				output.printf("\t%s %s and %s %s are not currently friends.\n\n", firstName1, lastName1, firstName2, lastName2);
 			}
@@ -148,21 +155,38 @@ public class FSCbook {
 			temp1.getMyFriends().delete(temp2.getID());
 			temp2.getMyFriends().delete(temp1.getID());
 
+			output.printf("\t%s %s and %s %s are no longer friends.\n\n", temp1.getFirstName(), temp1.getLastName(), temp2.getFirstName(), temp2.getLastName());
+			
 			//decrement their number of friends
 			temp1.decreaseNumFriends();
 			temp2.decreaseNumFriends();
 		}
 	}
 
+	public static void unfriendNoPrint(String firstName1, String lastName1, String firstName2, String lastName2, FSCbookBST book) {
+		//search the tree for those students
+		FSCstudent temp1 = book.searchByName(firstName1, lastName1);
+
+		FSCstudent temp2 = book.searchByName(firstName2, lastName2);
+
+		//delete them from each others LL
+		temp1.getMyFriends().delete(temp2.getID());
+		temp2.getMyFriends().delete(temp1.getID());
+
+		//decrement their number of friends
+		temp1.decreaseNumFriends();
+		temp2.decreaseNumFriends();
+	}
+
 	public static void delete(Scanner in, PrintWriter output, FSCbookBST book) {
 		//read in name first and last then loop over their linked list and from there based on that ID remove each of their friends
-		//for each friends ID find the name the corresponds and call unfriend
-		// use .getHead() and try looping through in here 
 		String firstName = in.next();
 		String lastName = in.next();
 
+		//save the student being deleted into an object after searching the tree for them
 		FSCstudent stuToDelete = book.searchByName(firstName, lastName);
 
+		//if the student to be deleted is not found
 		if (stuToDelete == null) {
 			output.print("\tCannot Perform DELETE Command:\n");
 			output.printf("\t\t%s %s was not found in FSCbook.\n\n", firstName, lastName);
@@ -174,10 +198,8 @@ public class FSCbook {
 				FSCstudent friend = book.searchbyID(hp.getID());
 
 				//call the unfriend method to remove them from each others LL
-				//if frine != null then unfriend else increment hp
-				//if (friend != null) {
-				unfriend(stuToDelete.getFirstName(), stuToDelete.getLastName(), friend.getFirstName(), friend.getLastName(), output, book);
-				//}
+				unfriendNoPrint(stuToDelete.getFirstName(), stuToDelete.getLastName(), friend.getFirstName(), friend.getLastName(), book);
+				
 				hp = hp.getNext();
 			}
 
@@ -185,8 +207,7 @@ public class FSCbook {
 			book.delete(stuToDelete.getID());
 
 			//make sure they are deleted from everyones LL
-			book.removeAllFriends(stuToDelete.getID());
-
+			//book.removeAllFriends(stuToDelete.getID());
 			output.printf("\t%s %s has been removed from FSCbook.\n\n", firstName, lastName);
 		}
 	}
@@ -211,26 +232,26 @@ public class FSCbook {
 			if (temp.getNumFriends() == 0) {
 				trigger = false;
 				output.printf("\t%s %s has no friends.\n\n", firstName, lastName);
-
 			}
 		}
 		//otherwise print their friends 
 		if (trigger) {
 			output.printf("\tFriends for ID %d, %s %s (%s Department):", temp.getID(), temp.getFirstName(), temp.getLastName(), temp.getDepartment());
 			//print their number of friends
-			output.printf("\n\t\tThere are a total of %d friends(s).", temp.getMyFriends().LLlength(temp.getFirstName()));
-			//output.print("\nNUM friends : " + temp.getNumFriends());
+			output.printf("\n\t\tThere are a total of %d friends(s).", temp.getNumFriends());
+			
 			//call a method from the LL class to print their friends 
 			temp.getMyFriends().printAllFriends(book, output);
 		}
 	}
 
 	public static void printMembers(FSCbookBST book, PrintWriter output) {
+		//if the tree is empty print an error
 		if (book.isEmpty()) {
 			output.print("\tCannot Perform PRINTMEMBERS Command:\n");
 			output.print("\t\tThere are currently no members of FSCbook.\n\n");
 		}
-		else {
+		else {//else call a custom method in the BST class to print all nodes inorder
 			output.print("\tMembers of FSCbook:\n");
 			//call a method from the BST to print all of the members and their IDs
 			book.printMembers(output);
@@ -261,6 +282,7 @@ public class FSCbook {
 			String command = in.next();
 			output.println(command + " Command");
 
+			//switch to call individual methods
 			switch (command) {
 				case "ADD":
 					add(in, output, tree);
@@ -289,9 +311,6 @@ public class FSCbook {
 				case "PRINTMEMBERS":
 					printMembers(tree, output);
 					break;
-				//case "DELETE":
-				//delete(in, output, tree);
-				///break;
 				default:
 					delete(in, output, tree);
 			}
@@ -300,5 +319,4 @@ public class FSCbook {
 		in.close();
 		output.close();
 	}
-
 }

@@ -1,3 +1,7 @@
+//Shane Claycomb
+//1235640
+//shaclay346@gmail.com
+//CSC 3280 section: 02
 package fscbook;
 
 //tree node class 
@@ -15,7 +19,7 @@ public class FSCstudent {
 	private FSCstudent left;
 	
 	
-	 // CONSTRUCTORS
+	 // CONSTRUCTOR
 	public FSCstudent(int ID, String firstName, String lastName, String department) {
 		this.ID = ID;
 		this.firstName = firstName;

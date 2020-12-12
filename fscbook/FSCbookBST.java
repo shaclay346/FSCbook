@@ -1,3 +1,7 @@
+//Shane Claycomb
+//1235640
+//shaclay346@gmail.com
+//CSC 3280 section: 02
 package fscbook;
 
 import java.io.PrintWriter;
@@ -29,29 +33,6 @@ public class FSCbookBST {
 		output.printf("\t\tID %d, %s %s, (%s)\n", p.getID(), p.getFirstName(), p.getLastName(), p.getDepartment());
 
 		printMembers(p.getRight(), output);
-	}
-	
-	public void removeAllFriends(int ID){
-		removeAllFriends(root , ID);
-		root.getMyFriends().delete(ID);
-	}
-	
-	private void removeAllFriends(FSCstudent p, int id){
-		if(p == null){
-			return ;
-		}
-		else{
-			removeAllFriends(p.getLeft(), id);
-			
-			//do the removing shit here
-//		    FSCfriend found = p.getMyFriends().search(id);
-//			if(found != null){
-//				p.getMyFriends().delete(id);
-//			}
-			p.getMyFriends().delete(id);
-			
-			removeAllFriends(p.getRight(), id);
-		}
 	}
 
 	/* Below are MANY methods that are used on Binary Search Trees.
@@ -94,18 +75,14 @@ public class FSCbookBST {
 		}
 	}
 
+	//method to search the tree by name
 	public FSCstudent searchByName(String firstName, String lastName) {
 		String name = lastName + firstName;
 		return searchByName(root, name);
 	}
 
-	//
-	// boolean | search(BSTnode, int)
-	//
+	//searching the tree based on name using compre to
 	private FSCstudent searchByName(FSCstudent p, String name) {
-		//if(p != null){
-		//String s2 = p.getFirstName() + p.getLastName();
-		//}
 		String s1 = name;
 
 		if (p == null) {
@@ -114,13 +91,14 @@ public class FSCbookBST {
 		else {
 			String s2 = p.getLastName() + p.getFirstName();
 			// if the data we are searching for is found at p (at the current root)
-			//could probaby just be if s1.equeals(s2)
 			if (s1.equals(s2)) {
 				return p;
 			}
+			//go left if the name is smaller than parent
 			else if (s1.compareTo(s2) < 0) {
 				return searchByName(p.getLeft(), s1);
 			}
+			//else go right
 			else { //compareTo > 0
 				return searchByName(p.getRight(), s1);
 			}
@@ -166,43 +144,6 @@ public class FSCbookBST {
 		// Return root of updated tree
 		return p;
 	}
-
-//	//
-//	// void | inorder()
-//	//
-//	public void inorder() {
-//		inorder(root);
-//	}
-//
-//	//
-//	// void | inorder(BSTnode)
-//	//
-//	private void inorder(FSCstudent p) {
-//		if (p != null) {
-//			inorder(p.getLeft());
-//			System.out.print(p.getData() + ", ");
-//			inorder(p.getRight());
-//		}
-//	}
-//
-//	//
-//	// int | sumNodes()
-//	//
-//	public int sumNodes() {
-//		return sumNodes(root);
-//	}
-//
-//	//
-//	// int | sumNodes(BSTnode)
-//	//
-//	private int sumNodes(BSTnode p) {
-//		if (p != null) {
-//			return p.getData() + sumNodes(p.getLeft()) + sumNodes(p.getRight());
-//		}
-//		else {
-//			return 0;
-//		}
-//	}
 	
 	//
 	// void | delete(int)
